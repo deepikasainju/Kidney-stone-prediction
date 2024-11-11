@@ -1,7 +1,9 @@
 import { Button, Card, Label, TextInput } from "flowbite-react";
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
+  const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -18,8 +20,7 @@ const Signup = () => {
     });
 
     if (response.ok) {
-      const errorData = await response.json();
-      setError(errorData.message);
+      navigate("/Login", { replace: true });
     } else {
       const errorData = await response.json();
       setError(errorData.message);

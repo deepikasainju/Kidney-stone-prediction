@@ -1,12 +1,16 @@
 import { Button, Card, Label, TextInput } from "flowbite-react";
 import React, { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+
+  const handleNaviagteSignup=()=>{
+    navigate("/Signup", { replace: true });
+  }
 
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -18,7 +22,9 @@ const Login = () => {
     });
 
     if (response.ok) {
-      <Navigate to="/HomeScreen" replace={true} />;
+      navigate("/HomeScreen", { replace: true });
+      // const errorData = await response.json();
+      // setError(errorData.message);
     } else {
       const errorData = await response.json();
       setError(errorData.message);
@@ -62,6 +68,7 @@ const Login = () => {
             <a
               href="#signUp"
               className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+              onClick={handleNaviagteSignup}
             >
               Sign up
             </a>
