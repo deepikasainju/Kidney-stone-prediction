@@ -1,6 +1,17 @@
 import { Avatar, Dropdown, Navbar } from "flowbite-react";
+import { useNavigate } from "react-router-dom";
 
 const Navigation = () => {
+
+  const navigate = useNavigate();
+  const handleNaviagteHome=()=>{
+    navigate("/HomeScreen", { replace: true });
+  }
+
+  const handleNaviagteSignout=()=>{
+    navigate("/Login", { replace: true });
+  }
+
   return (
     <div className="bg-primary  sticky">
       <Navbar fluid rounded className="lg:mx-32 bg-primary">
@@ -30,12 +41,12 @@ const Navigation = () => {
             <Dropdown.Item>Dashboard</Dropdown.Item>
             <Dropdown.Item>Settings</Dropdown.Item>
             <Dropdown.Divider />
-            <Dropdown.Item>Sign out</Dropdown.Item>
+            <Dropdown.Item onClick={handleNaviagteSignout}>Sign out</Dropdown.Item>
           </Dropdown>
           <Navbar.Toggle />
         </div>
         <Navbar.Collapse>
-          <Navbar.Link href="#" active>
+          <Navbar.Link href="#" active onClick={handleNaviagteHome}>
             Home
           </Navbar.Link>
           <Navbar.Link href="#">About</Navbar.Link>
