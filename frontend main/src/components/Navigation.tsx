@@ -2,15 +2,14 @@ import { Avatar, Dropdown, Navbar } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
 
 const Navigation = () => {
-
   const navigate = useNavigate();
-  const handleNaviagteHome=()=>{
+  const handleNaviagteHome = () => {
     navigate("/HomeScreen", { replace: true });
-  }
+  };
 
-  const handleNaviagteSignout=()=>{
+  const handleNaviagteSignout = () => {
     navigate("/Login", { replace: true });
-  }
+  };
 
   return (
     <div className="bg-primary  sticky">
@@ -41,7 +40,9 @@ const Navigation = () => {
             <Dropdown.Item>Dashboard</Dropdown.Item>
             <Dropdown.Item>Settings</Dropdown.Item>
             <Dropdown.Divider />
-            <Dropdown.Item onClick={handleNaviagteSignout}>Sign out</Dropdown.Item>
+            <Dropdown.Item onClick={handleNaviagteSignout}>
+              Sign out
+            </Dropdown.Item>
           </Dropdown>
           <Navbar.Toggle />
         </div>
@@ -49,9 +50,8 @@ const Navigation = () => {
           <Navbar.Link href="#" active onClick={handleNaviagteHome}>
             Home
           </Navbar.Link>
-          <Navbar.Link href="#">About</Navbar.Link>
-          <Navbar.Link href="#">Services</Navbar.Link>
-          <Navbar.Link href="#">Pricing</Navbar.Link>
+          <Navbar.Link href="#">Prediction</Navbar.Link>
+          <Navbar.Link href="#">FAQ</Navbar.Link>
           <Navbar.Link href="#">Contact</Navbar.Link>
         </Navbar.Collapse>
       </Navbar>

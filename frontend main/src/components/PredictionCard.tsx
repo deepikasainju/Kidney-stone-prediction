@@ -1,5 +1,5 @@
 import { Button, Card } from "flowbite-react";
-const PredictionCard = ({ title, description }) => {
+const PredictionCard = ({ title, description, handleClick }) => {
   return (
     <Card className="max-w-sm">
       <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -8,7 +8,7 @@ const PredictionCard = ({ title, description }) => {
       <p className="font-normal text-gray-700 dark:text-gray-400">
         {description}
       </p>
-      <Button>
+      <Button onClick={handleClick}>
         Start Prediction
         <svg
           className="-mr-1 ml-2 h-4 w-4"

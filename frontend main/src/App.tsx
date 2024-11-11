@@ -9,9 +9,11 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<HomeScreen />} />
         <Route path="/Signup" element={<Signup />} />
         <Route path="/HomeScreen" element={<HomeScreen />} />
+        <Route path="/PredictByData" element={<PredictByData />} />
+        <Route path="/PredictByImage" element={<PredictByImage />} />
       </Routes>
     </BrowserRouter>
   );
