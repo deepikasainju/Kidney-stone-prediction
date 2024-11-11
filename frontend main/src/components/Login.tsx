@@ -1,8 +1,8 @@
 import { Button, Card, Label, TextInput } from "flowbite-react";
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { Navigate } from "react-router-dom";
 
 const Login = () => {
-
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -14,12 +14,11 @@ const Login = () => {
     const response = await fetch("http://127.0.0.1:5000/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password })
+      body: JSON.stringify({ username, password }),
     });
 
     if (response.ok) {
-      const errorData = await response.json();
-      setError(errorData.message);
+      <Navigate to="/HomeScreen" replace={true} />;
     } else {
       const errorData = await response.json();
       setError(errorData.message);
@@ -49,10 +48,12 @@ const Login = () => {
             <div className="mb-2 block">
               <Label htmlFor="password1" value="Your password" />
             </div>
-            <TextInput id="password1" 
-            type="password" 
-            onChange={(e) => setPassword(e.target.value)}
-            required />
+            <TextInput
+              id="password1"
+              type="password"
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
           </div>
 
           <Button type="submit">Sign in</Button>
@@ -66,7 +67,7 @@ const Login = () => {
             </a>
           </p>
         </form>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {error && <p style={{ color: "red" }}>{error}</p>}
       </Card>
     </div>
   );
