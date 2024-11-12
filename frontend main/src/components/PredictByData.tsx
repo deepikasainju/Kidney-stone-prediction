@@ -1,6 +1,34 @@
 import Navigation from "./Navigation";
+import React, { useState } from "react";
 
 const PredictByData = () => {
+
+  const [gravity, setGravity] = useState("");
+  const [ph, setPH] = useState("");
+  const [osmo, setOsmo] = useState("");
+  const [cond, setCond] = useState("");
+  const [urea, setUrea] = useState("");
+  const [calc, setCalc] = useState("");
+  const [data, setData]= useState(null);
+
+  const handleDataSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const response = await fetch("http://127.0.0.1:5000/Predictbydata", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ gravity, ph, osmo, cond, urea, calc }),
+    });
+
+    if (response.ok) {
+      const Data = await response.json();
+      setData(Data.gravity);
+    } else {
+      const Data = await response.json();
+      setData(Data.message);
+    }
+  };
+
   return (
     <div>
       <Navigation />
@@ -8,15 +36,16 @@ const PredictByData = () => {
         Kidney stone prediction with urine analysis
       </h1>
 
-      <form className="max-w-md mx-auto">
+      <form className="max-w-md mx-auto" onSubmit={handleDataSubmit}>
         <div className="relative z-0 w-full mb-5 group">
           <input
-            type="number"
+            type="text"
             step="any"
             name="gravity"
             id="gravity"
             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "
+            onChange={(e) => setGravity(e.target.value)}
             required
           />
           <label
@@ -28,12 +57,13 @@ const PredictByData = () => {
         </div>
         <div className="relative z-0 w-full mb-5 group">
           <input
-            type="number"
+            type="text"
             step="any"
             name="pH"
             id="pH"
             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "
+            onChange={(e) => setPH(e.target.value)}
             required
           />
           <label
@@ -45,12 +75,13 @@ const PredictByData = () => {
         </div>
         <div className="relative z-0 w-full mb-5 group">
           <input
-            type="number"
+            type="text"
             step="any"
             name="osmo"
             id="osmo"
             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "
+            onChange={(e) => setOsmo(e.target.value)}
             required
           />
           <label
@@ -62,12 +93,13 @@ const PredictByData = () => {
         </div>
         <div className="relative z-0 w-full mb-5 group">
           <input
-            type="number"
+            type="text"
             step="any"
             name="conductivity"
             id="conductivity"
             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "
+            onChange={(e) => setCond(e.target.value)}
             required
           />
           <label
@@ -79,12 +111,13 @@ const PredictByData = () => {
         </div>
         <div className="relative z-0 w-full mb-5 group">
           <input
-            type="number"
+            type="text"
             step="any"
             name="urea"
             id="urea"
             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "
+            onChange={(e) => setUrea(e.target.value)}
             required
           />
           <label
@@ -96,12 +129,13 @@ const PredictByData = () => {
         </div>
         <div className="relative z-0 w-full mb-5 group">
           <input
-            type="number"
+            type="text"
             step="any"
             name="calc"
             id="calc"
             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "
+            onChange={(e) => setCalc(e.target.value)}
             required
           />
           <label
@@ -119,6 +153,7 @@ const PredictByData = () => {
           Submit
         </button>
       </form>
+      {data && <p style={{ color: "red" }}>{data}</p>}
     </div>
   );
 };

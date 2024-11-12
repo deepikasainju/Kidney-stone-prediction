@@ -83,4 +83,17 @@ def signup():
 # Kidney stone prediction with urine analysis
 @app.route('/Predictbydata', methods=['POST'])
 def predictbydata():
-   return jsonify({"message": "Predict by data"}),200
+   try:
+      data = request.get_json()
+      gravity= float(data.get("gravity"))
+      # gravity=float(gravity_s)
+      ph = data.get("ph")
+      osmo = data.get("osmo")
+      ty = type(gravity).__name__ 
+      cond = data.get("cond")
+      urea = data.get("urea")
+      calc = data.get("calc")
+      return jsonify({"message": "Predict by data","gravity":gravity,"type":ty}),200
+   
+   except Exception as e:
+      return jsonify({"message":str(e)})
