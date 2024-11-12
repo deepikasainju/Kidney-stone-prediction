@@ -3,7 +3,7 @@ from flask_mysqldb import MySQL
 from password import password
 from flask_cors import CORS
 import hashlib
-
+import re
 
 
 app = Flask(__name__)
@@ -17,6 +17,9 @@ app.config['MYSQL_DB'] = 'sevendb'
 
 mysql = MySQL(app)
 
+# regex expression
+regex_email = re.compile(r'^[a-zA-Z0-9._%+-]+@gmail\.com$')
+
 
 # paswword crytping
 def hash_password(password):
@@ -24,7 +27,6 @@ def hash_password(password):
 
 def verify_password(stored_password, provided_password):
     return stored_password == hash_password(provided_password)
-
 
 
 @app.route('/')
@@ -64,14 +66,21 @@ def signup():
       password = data.get("password")
       email= data.get("email")
 
-      # hashing password
-      hashed_password = hash_password(password)
+      if re.match(regex_email, email):
+         # hashing password
+         hashed_password = hash_password(password)
 
-      cur = mysql.connection.cursor()
-      cur.execute("INSERT INTO Users(USERNAME, EMAIL, PASSWORD) VALUES (%s, %s, %s)", (username, email, hashed_password))
-      mysql.connection.commit()
-      cur.close()
-      return jsonify({"message": "Signup successful!"}), 201
+         cur = mysql.connection.cursor()
+         cur.execute("INSERT INTO Users(USERNAME, EMAIL, PASSWORD) VALUES (%s, %s, %s)", (username, email, hashed_password))
+         mysql.connection.commit()
+         cur.close()
+         return jsonify({"message": "Signup successful!"}), 201
    
-   except:
+   except Exception as e:
       return jsonify({"message": "Signup unsuccessful!"}), 401
+
+
+# Kidney stone prediction with urine analysis
+@app.route('/Predictbydata', methods=['POST'])
+def predictbydata():
+   return jsonify({"message": "Predict by data"}),200

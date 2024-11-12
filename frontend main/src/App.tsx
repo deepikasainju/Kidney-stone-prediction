@@ -10,6 +10,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomeScreen />} />
+        <Route path="/Login" element={<Login />} />
         <Route path="/Signup" element={<Signup />} />
         <Route path="/HomeScreen" element={<HomeScreen />} />
         <Route path="/PredictByData" element={<PredictByData />} />

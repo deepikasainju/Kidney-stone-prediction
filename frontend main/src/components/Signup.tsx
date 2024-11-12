@@ -10,6 +10,10 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [error, setError] = useState(null);
 
+  const handleNaviagteSignin=()=>{
+    navigate("/Login", { replace: true });
+  };
+
   const handlesignup = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -66,7 +70,17 @@ const Signup = () => {
             required />
           </div>
 
-          <Button type="submit">Sign in</Button>
+          <Button type="submit">Sign up</Button>
+          <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+            Already have an account?{" "}
+            <a
+              href="#signUp"
+              className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+              onClick={handleNaviagteSignin}
+            >
+              Sign in
+            </a>
+          </p>
         </form>
         {error && <p style={{ color: 'red' }}>{error}</p>}
       </Card>
