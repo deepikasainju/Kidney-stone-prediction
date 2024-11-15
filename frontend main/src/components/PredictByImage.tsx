@@ -1,17 +1,41 @@
-import React, { useRef } from "react";
+import React, { useState } from "react";
 import Navigation from "./Navigation";
 
 const PredictByImage = () => {
-  const fileInputRef = useRef(null); // create a ref for the file input
 
-  const handleFileChange = () => {
-    const fileName = fileInputRef.current?.files[0]?.name;
-    if (fileName) {
-      document.getElementById(
-        "file-name"
-      ).textContent = `Selected File: ${fileName}`;
+  const [file, setFile] = useState(null);
+  const [prediction, setPrediction] = useState('');
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!file) {
+      alert("Please upload an image file first.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const response = await fetch('http://127.0.0.1:5000/Predictbyimage', {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+      setPrediction(data.prediction);
+    } else{
+      const data = await response.json();
+      setPrediction(data.error || 'An error occurred');
     }
   };
+
 
   return (
     <div>
@@ -19,6 +43,7 @@ const PredictByImage = () => {
       <h1 className="text-center mt-20 font-bold text-3xl mb-10">
         Predict Kidney Stone By Image
       </h1>
+      <form action="" onSubmit={handleSubmit}>
       <div className="flex flex-col items-center justify-center">
         <div className="w-96">
           <label
@@ -54,7 +79,6 @@ const PredictByImage = () => {
               type="file"
               accept="image/*"
               className="hidden"
-              ref={fileInputRef} // attach ref
               onChange={handleFileChange} // handle file change
             />
           </label>
@@ -70,6 +94,8 @@ const PredictByImage = () => {
           Submit
         </button>
       </div>
+      </form>
+      {prediction && <p>{prediction}</p>}
     </div>
   );
 };

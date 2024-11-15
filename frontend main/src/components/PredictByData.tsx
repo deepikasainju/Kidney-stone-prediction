@@ -22,7 +22,7 @@ const PredictByData = () => {
 
     if (response.ok) {
       const Data = await response.json();
-      setData(Data.gravity);
+      setData(`Stone Probability: ${Data.Stone_Probability}, No Stone Probability: ${Data.No_Stone_Probalility}`);
     } else {
       const Data = await response.json();
       setData(Data.message);

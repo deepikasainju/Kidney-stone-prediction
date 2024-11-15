@@ -4,6 +4,12 @@ from password import password
 from flask_cors import CORS
 import hashlib
 import re
+import pandas as pd
+from joblib import load
+from tensorflow.keras.preprocessing.image import img_to_array, load_img
+from keras.models import load_model
+import numpy as np
+import os
 
 
 app = Flask(__name__)
@@ -86,14 +92,80 @@ def predictbydata():
    try:
       data = request.get_json()
       gravity= float(data.get("gravity"))
-      # gravity=float(gravity_s)
-      ph = data.get("ph")
-      osmo = data.get("osmo")
-      ty = type(gravity).__name__ 
-      cond = data.get("cond")
-      urea = data.get("urea")
-      calc = data.get("calc")
-      return jsonify({"message": "Predict by data","gravity":gravity,"type":ty}),200
+      ph = float(data.get("ph"))
+      osmo = float(data.get("osmo"))
+      cond = float(data.get("cond"))
+      urea = float(data.get("urea"))
+      calc = float(data.get("calc"))
+      input_data = pd.DataFrame({
+        'gravity': [gravity],
+        'osmo': [osmo],
+        'ph': [ph],
+        'cond': [cond],
+        'urea': [urea],
+        'calc': [calc]
+      })
+      data_model = load('lgbm.joblib')
+      prob = data_model.predict_proba(input_data)
+      no_stone_prob=prob[0][0]
+      stone_prob=prob[0][1]
+      return jsonify({"Stone_Probability": stone_prob, "No_Stone_Probalility": no_stone_prob}), 200
    
    except Exception as e:
       return jsonify({"message":str(e)})
+   
+
+
+# Kidney stone prediction with CT Scan
+
+def predict_image(image_path):
+    """
+    Predicts if a CT scan image is 'Normal' or 'Stone'.
+    
+    Parameters:
+    - image_path (str): Path to the CT scan image.
+    
+    Returns:
+    - str: 'Normal' or 'Stone' based on the prediction.
+    """
+    # loading the model
+    CT_model = load_model('kidney_stone_detection_CT_image_model.h5')
+
+    # Load and preprocess the image
+    image = load_img(image_path, target_size=(150, 150))  # Resize to match model's input size
+    image = img_to_array(image) / 255.0  # Normalize the image
+    image = np.expand_dims(image, axis=0)  # Add batch dimension
+    
+    # Make a prediction
+    prediction = CT_model.predict(image)
+    print(prediction[0][0])
+    if prediction[0][0] > 0.5:
+        return 'Kidney Stone Detected (Positive)',round(float(prediction[0][0])*100,2),'%'
+    else:
+        return 'No Kidney Stone Detected  (Negative)',round(float(prediction[0][0])*100,2),'%'
+
+@app.route('/Predictbyimage', methods=['POST'])
+def predictbyimage():
+   try:
+      if 'file' not in request.files:
+         return jsonify({"error": "No file uploaded"}), 400
+      file = request.files['file']
+      
+      # Save the uploaded file temporarily
+      if not os.path.exists('temp'):
+         os.makedirs('temp')
+
+      filepath = os.path.join("temp", file.filename)
+      file.save(filepath)
+      
+      # Run prediction
+      result = predict_image(filepath)
+      print(result)
+      
+      # Delete the temporary file
+      os.remove(filepath)
+      
+      return jsonify({"prediction": result}),200
+   
+   except Exception as e:
+      return jsonify({"error": str(e)})
