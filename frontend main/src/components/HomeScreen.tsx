@@ -1,3 +1,4 @@
+import Faq from "./Faq";
 import HeroSection from "./HeroSection";
 import Navigation from "./Navigation";
 import StoneDetect from "./StoneDetect";
@@ -8,6 +9,7 @@ export function HomeScreen() {
       <Navigation />
       <HeroSection />
       <StoneDetect />
+      <Faq />
     </div>
   );
 }

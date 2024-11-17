@@ -1,7 +1,7 @@
 const HeroSection = () => {
   return (
-    <section className="bg-primary dark:bg-gray-900 ">
-      <div className="flex max-w-screen-xl px-4 py-20 md:mx-20 lg:mx-32 lg:gap-8 xl:gap-0   items-center ">
+    <section className="bg-primary ">
+      <div className="flex max-w-screen-xl px-4 py-20 md:mx-20 lg:mx-32  items-center ">
         <div className="mr-auto">
           <h1 className="max-w-lg md:max-w-xl  mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white">
             Empowering Precision in Kidney Stone Detection
