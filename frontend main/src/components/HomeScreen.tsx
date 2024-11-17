@@ -8,8 +8,8 @@ export function HomeScreen() {
     <div className="">
       <Navigation />
       <HeroSection />
-      <StoneDetect />
       <Faq />
+      <StoneDetect />
     </div>
   );
 }

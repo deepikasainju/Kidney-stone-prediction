@@ -15,7 +15,7 @@ const PredictByData = () => {
   const handleDataSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true); // Show loading indicator
-    try{
+    try {
       const response = await fetch("http://127.0.0.1:5000/Predictbydata", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -31,7 +31,7 @@ const PredictByData = () => {
         const Data = await response.json();
         setData(Data.message);
       }
-    }catch (error) {
+    } catch (error) {
       console.error("Error:", error);
     } finally {
       setIsLoading(false); // Hide loading indicator
@@ -45,7 +45,7 @@ const PredictByData = () => {
         Kidney stone prediction with urine analysis
       </h1>
 
-      <form className="max-w-md mx-auto" onSubmit={handleDataSubmit}>
+      <form className="max-w-md mx-auto px-5" onSubmit={handleDataSubmit}>
         <div className="relative z-0 w-full mb-5 group">
           <input
             type="text"
@@ -164,15 +164,19 @@ const PredictByData = () => {
       </form>
 
       {/* REsult */}
-      {data &&
-      <div className="flex justify-center align-center mt-20">
-        <Card className="max-w-md ">
-          <h5 className="text-2xl text-center font-bold tracking-tight text-gray-900 dark:text-white">
-            Result
-          </h5>
-          <p className=" text-gray-700 font-bold"> <p>{data}</p></p>
-        </Card>
-      </div>}
+      {data && (
+        <div className="flex justify-center align-center mt-20">
+          <Card className="max-w-md ">
+            <h5 className="text-2xl text-center font-bold tracking-tight text-gray-900 dark:text-white">
+              Result
+            </h5>
+            <p className=" text-gray-700 font-bold">
+              {" "}
+              <p>{data}</p>
+            </p>
+          </Card>
+        </div>
+      )}
     </div>
   );
 };

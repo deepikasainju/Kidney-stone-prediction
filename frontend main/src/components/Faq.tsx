@@ -2,8 +2,8 @@ import { Accordion } from "flowbite-react";
 
 const Faq = () => {
   return (
-    <div className="  ">
-      <h1 className="text-center text-2xl font-bold tracking-tight text-gray-900 dark:text-white pb-10">
+    <div id="faq">
+      <h1 className="text-center text-3xl font-bold tracking-tight text-gray-900 pb-10 mt-20">
         Know About Kidney Stone
       </h1>
       <Accordion className="lg:mx-80">

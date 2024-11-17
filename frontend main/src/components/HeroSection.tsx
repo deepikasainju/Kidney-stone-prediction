@@ -11,7 +11,7 @@ const HeroSection = () => {
           </p>
 
           <a
-            href="#"
+            href="#prediction"
             className="bg-accent inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white rounded-lg  hover:bg-secondaryAccent "
           >
             Get started
