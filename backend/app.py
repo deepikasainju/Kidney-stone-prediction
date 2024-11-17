@@ -109,7 +109,7 @@ def predictbydata():
       prob = data_model.predict_proba(input_data)
       no_stone_prob=prob[0][0]
       stone_prob=prob[0][1]
-      return jsonify({"Stone_Probability": stone_prob, "No_Stone_Probalility": no_stone_prob}), 200
+      return jsonify({"Stone_Probability": round(stone_prob,2), "No_Stone_Probalility": round(no_stone_prob,2)}), 200
    
    except Exception as e:
       return jsonify({"message":str(e)})
@@ -140,9 +140,9 @@ def predict_image(image_path):
     prediction = CT_model.predict(image)
     print(prediction[0][0])
     if prediction[0][0] > 0.5:
-        return 'Kidney Stone Detected (Positive)',round(float(prediction[0][0])*100,2),'%'
+        return 'Kidney Stone Detected (Positive): ',round(float(prediction[0][0])*100,2),'%'
     else:
-        return 'No Kidney Stone Detected  (Negative)',round(float(prediction[0][0])*100,2),'%'
+        return 'No Kidney Stone Detected  (Negative): ',round(float(prediction[0][0])*100,2),'%'
 
 @app.route('/Predictbyimage', methods=['POST'])
 def predictbyimage():

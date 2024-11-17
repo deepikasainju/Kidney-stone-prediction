@@ -1,31 +1,40 @@
+import { Card } from "flowbite-react";
 import Navigation from "./Navigation";
 import React, { useState } from "react";
 
 const PredictByData = () => {
-
   const [gravity, setGravity] = useState("");
   const [ph, setPH] = useState("");
   const [osmo, setOsmo] = useState("");
   const [cond, setCond] = useState("");
   const [urea, setUrea] = useState("");
   const [calc, setCalc] = useState("");
-  const [data, setData]= useState(null);
+  const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleDataSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setIsLoading(true); // Show loading indicator
+    try{
+      const response = await fetch("http://127.0.0.1:5000/Predictbydata", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ gravity, ph, osmo, cond, urea, calc }),
+      });
 
-    const response = await fetch("http://127.0.0.1:5000/Predictbydata", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ gravity, ph, osmo, cond, urea, calc }),
-    });
-
-    if (response.ok) {
-      const Data = await response.json();
-      setData(`Stone Probability: ${Data.Stone_Probability}, No Stone Probability: ${Data.No_Stone_Probalility}`);
-    } else {
-      const Data = await response.json();
-      setData(Data.message);
+      if (response.ok) {
+        const Data = await response.json();
+        setData(
+          `Stone Probability: ${Data.Stone_Probability}, No Stone Probability: ${Data.No_Stone_Probalility}`
+        );
+      } else {
+        const Data = await response.json();
+        setData(Data.message);
+      }
+    }catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setIsLoading(false); // Hide loading indicator
     }
   };
 
@@ -150,10 +159,20 @@ const PredictByData = () => {
           type="submit"
           className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
-          Submit
+          {isLoading ? "Processing..." : "Submit"}
         </button>
       </form>
-      {data && <p style={{ color: "red" }}>{data}</p>}
+
+      {/* REsult */}
+      {data &&
+      <div className="flex justify-center align-center mt-20">
+        <Card className="max-w-md ">
+          <h5 className="text-2xl text-center font-bold tracking-tight text-gray-900 dark:text-white">
+            Result
+          </h5>
+          <p className=" text-gray-700 font-bold"> <p>{data}</p></p>
+        </Card>
+      </div>}
     </div>
   );
 };

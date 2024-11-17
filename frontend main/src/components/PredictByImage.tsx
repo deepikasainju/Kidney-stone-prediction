@@ -1,13 +1,28 @@
 import React, { useState } from "react";
 import Navigation from "./Navigation";
+import { Card } from "flowbite-react";
 
 const PredictByImage = () => {
-
   const [file, setFile] = useState(null);
-  const [prediction, setPrediction] = useState('');
+  const [imagePreview, setImagePreview] = useState(null);
+  const [prediction, setPrediction] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [image, setImage] = useState(null);
 
   const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+    const uploadedFile = e.target.files[0];
+    if (uploadedFile) {
+      if (uploadedFile.size > 2 * 1024 * 1024) { // 2MB file size limit
+        alert("File size exceeds 2MB. Please upload a smaller file.");
+        return;
+      }
+      setFile(uploadedFile);
+      setImagePreview(URL.createObjectURL(uploadedFile)); // Preview the image
+      setImage(URL.createObjectURL(uploadedFile));
+    } else {
+      setFile(null);
+      setImagePreview(null);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -18,24 +33,32 @@ const PredictByImage = () => {
       return;
     }
 
+    setIsLoading(true); // Show loading indicator
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append("file", file);
 
-    const response = await fetch('http://127.0.0.1:5000/Predictbyimage', {
-      method: 'POST',
-      body: formData,
-    });
+    try {
+      const response = await fetch("http://127.0.0.1:5000/Predictbyimage", {
+        method: "POST",
+        body: formData,
+      });
 
-    if (response.ok) {
-      const data = await response.json();
-      console.log(data);
-      setPrediction(data.prediction);
-    } else{
-      const data = await response.json();
-      setPrediction(data.error || 'An error occurred');
+      if (response.ok) {
+        const data = await response.json();
+        setPrediction(data.prediction);
+      } else {
+        const errorData = await response.json();
+        setPrediction(errorData.error || "An error occurred.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setPrediction("Network error. Please try again later.");
+    } finally {
+      setIsLoading(false); // Hide loading indicator
+      console.log(image);
+      setImagePreview(null);
     }
   };
-
 
   return (
     <div>
@@ -43,16 +66,25 @@ const PredictByImage = () => {
       <h1 className="text-center mt-20 font-bold text-3xl mb-10">
         Predict Kidney Stone By Image
       </h1>
-      <form action="" onSubmit={handleSubmit}>
-      <div className="flex flex-col items-center justify-center">
-        <div className="w-96">
-          <label
-            htmlFor="dropzone-file"
-            className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
-          >
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col items-center bg-gray-50 border border-gray-300 shadow-md rounded-lg p-8 w-full sm:w-2/3 lg:w-1/3 mx-auto"
+      >
+        {/* File Upload */}
+        <label
+          htmlFor="dropzone-file"
+          className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-white hover:bg-gray-100 relative"
+        >
+          {imagePreview ? (
+            <img
+              src={imagePreview}
+              alt="Preview"
+              className="absolute inset-0 w-full h-full object-cover rounded-lg"
+            />
+          ) : (
             <div className="flex flex-col items-center justify-center pt-5 pb-6">
               <svg
-                className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                className="w-8 h-8 mb-4 text-gray-500"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -66,36 +98,58 @@ const PredictByImage = () => {
                   d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
                 />
               </svg>
-              <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+              <p className="mb-2 text-sm text-gray-500">
                 <span className="font-semibold">Click to upload</span> or drag
                 and drop
               </p>
-              <p className="text-xs text-gray-500 dark:text-gray-400">
-                SVG, PNG, JPG or GIF (MAX. 800x400px)
-              </p>
+              <p className="text-xs text-gray-500">PNG, JPG or GIF (MAX. 2MB)</p>
             </div>
-            <input
-              id="dropzone-file"
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={handleFileChange} // handle file change
-            />
-          </label>
-        </div>
-        {/* Display the file name */}
-        <div className="text-center mt-4">
-          <p id="file-name" className="text-xl font-semibold"></p>
-        </div>
+          )}
+          <input
+            id="dropzone-file"
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={handleFileChange}
+          />
+        </label>
+
+        {/* Submit Button */}
         <button
           type="submit"
-          className="mx-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center "
+          className="mt-6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full"
         >
-          Submit
+          {isLoading ? "Processing..." : "Submit"}
         </button>
-      </div>
       </form>
-      {prediction && <p>{prediction}</p>}
+
+      {/* Prediction Result */}
+      {prediction && (
+        <div className="flex justify-center align-center mt-20">
+
+       
+        <Card className="max-w-md ">
+        <h5 className="text-2xl text-center font-bold tracking-tight text-gray-900 dark:text-white">
+          Result
+        </h5>
+        <img
+              src={image}
+              alt="Preview"
+              className=" object-cover rounded-lg"
+            />
+        <p className=" text-gray-700 font-bold">
+             {prediction}
+
+        </p>
+       
+      </Card>
+      </div>
+        // <div className="mt-8 text-center">
+        //   <p className="text-lg font-semibold text-gray-800">
+        //     Prediction: {prediction}
+        //   </p>
+        // </div>
+      )}
     </div>
   );
 };
