@@ -102,13 +102,13 @@ const PredictByImage = () => {
                 <span className="font-semibold">Click to upload</span> or drag
                 and drop
               </p>
-              <p className="text-xs text-gray-500">PNG, JPG or GIF (MAX. 2MB)</p>
+              <p className="text-xs text-gray-500">PNG, JPG or JPEG (MAX. 2MB)</p>
             </div>
           )}
           <input
             id="dropzone-file"
             type="file"
-            accept="image/*"
+            accept="image/jpeg, image/png, image/jpg"
             className="hidden"
             onChange={handleFileChange}
           />
