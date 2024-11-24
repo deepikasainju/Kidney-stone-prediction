@@ -10,6 +10,7 @@ from tensorflow.keras.preprocessing.image import img_to_array, load_img
 from keras.models import load_model
 import numpy as np
 import os
+import cv2
 
 
 app = Flask(__name__)
@@ -118,6 +119,16 @@ def predictbydata():
 
 # Kidney stone prediction with CT Scan
 
+def has_sharp_edges(image_path):
+    image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)  # Load image in grayscale
+    edges = cv2.Canny(image, 100, 200)
+    
+    # Calculate the percentage of edge pixels
+    edge_percentage = np.sum(edges > 0) / float(image.size)
+    
+    # If the edge percentage is above a certain threshold, it might be a CT scan
+    return edge_percentage > 0.05  # Example threshold
+
 def predict_image(image_path):
     """
     Predicts if a CT scan image is 'Normal' or 'Stone'.
@@ -157,6 +168,10 @@ def predictbyimage():
 
       filepath = os.path.join("temp", file.filename)
       file.save(filepath)
+
+       # Validate if the image is a CT scan
+      if not has_sharp_edges(filepath):
+         return jsonify({"error": "Uploaded file is not a valid CT scan image of Kidney"}), 400
       
       # Run prediction
       result = predict_image(filepath)
