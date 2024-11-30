@@ -11,7 +11,10 @@ const StoneDetect = () => {
   };
   return (
     <div className="bg-secondary">
-      <div id="prediction" className="flex flex-col lg:mx-20  mt-10 py-10 ">
+      <div
+        id="prediction"
+        className="flex flex-col lg:mx-20  mt-10 py-10 lg:py-28 "
+      >
         <h2 className="lg:text-3xl text-2xl font-bold  text-center ">
           Detect or predict kidney stone
         </h2>
