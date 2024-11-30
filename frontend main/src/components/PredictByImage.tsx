@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Navigation from "./Navigation";
+import Footer from "./Footer";
 import { Card } from "flowbite-react";
 
 const PredictByImage = () => {
@@ -155,6 +156,8 @@ const PredictByImage = () => {
         //     Prediction: {prediction}
         //   </p>
         // </div> */}
+        <div className="mt-3"> <Footer /> </div>
+        
     </div>
   );
 };
