@@ -110,7 +110,7 @@ def predictbydata():
       prob = data_model.predict_proba(input_data)
       no_stone_prob=prob[0][0]
       stone_prob=prob[0][1]
-      return jsonify({"Stone_Probability": round(stone_prob,2), "No_Stone_Probalility": round(no_stone_prob,2)}), 200
+      return jsonify({"Stone_Probability": round(float(stone_prob)*100,2), "No_Stone_Probalility": round(float(no_stone_prob)*100,2)}), 200
    
    except Exception as e:
       return jsonify({"message":str(e)})

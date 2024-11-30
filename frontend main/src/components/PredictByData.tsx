@@ -26,11 +26,13 @@ const PredictByData = () => {
 
       if (response.ok) {
         const Data = await response.json();
-        setIsError(true);
+        setIsError(false);
         setData(
-          `Stone Probability: ${Data.Stone_Probability}, No Stone Probability: ${Data.No_Stone_Probalility}`
+          `Stone Probability: ${Data.Stone_Probability} %, 
+           No Stone Probability: ${Data.No_Stone_Probalility} %`
         );
       } else {
+        setIsError(true);
         const Data = await response.json();
         setData(Data.message);
       }
