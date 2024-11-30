@@ -11,10 +11,12 @@ const PredictByData = () => {
   const [calc, setCalc] = useState("");
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   const handleDataSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setIsLoading(true); // Show loading indicator
+    setIsLoading(true);
+    setIsError(false);
     try {
       const response = await fetch("http://127.0.0.1:5000/Predictbydata", {
         method: "POST",
@@ -24,6 +26,7 @@ const PredictByData = () => {
 
       if (response.ok) {
         const Data = await response.json();
+        setIsError(true);
         setData(
           `Stone Probability: ${Data.Stone_Probability}, No Stone Probability: ${Data.No_Stone_Probalility}`
         );
@@ -167,9 +170,16 @@ const PredictByData = () => {
       {data && (
         <div className="flex justify-center align-center mt-20">
           <Card className="max-w-md ">
-            <h5 className="text-2xl text-center font-bold tracking-tight text-gray-900 dark:text-white">
-              Result
-            </h5>
+            {isError ? (
+              <h5 className="text-2xl text-center font-bold tracking-tight text-red-600 ">
+                Error
+              </h5>
+            ) : (
+              <h5 className="text-2xl text-center font-bold tracking-tight text-gray-900 dark:text-white">
+                Result
+              </h5>
+            )}
+
             <p className=" text-gray-700 font-bold">
               {" "}
               <p>{data}</p>

@@ -1,8 +1,7 @@
 import { Button, Card, Checkbox, Label, TextInput } from "flowbite-react";
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-const Login = () => {
+import React, { useState } from "react";
 
+const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -14,7 +13,7 @@ const Login = () => {
     const response = await fetch("http://127.0.0.1:5000/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password })
+      body: JSON.stringify({ username, password }),
     });
 
     if (response.ok) {
@@ -49,10 +48,12 @@ const Login = () => {
             <div className="mb-2 block">
               <Label htmlFor="password1" value="Your password" />
             </div>
-            <TextInput id="password1" 
-              type="password" 
+            <TextInput
+              id="password1"
+              type="password"
               onChange={(e) => setPassword(e.target.value)}
-              required />
+              required
+            />
           </div>
           <div className="flex items-center gap-2">
             <Checkbox id="remember" />
@@ -69,7 +70,7 @@ const Login = () => {
             </a>
           </p>
         </form>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {error && <p style={{ color: "red" }}>{error}</p>}
       </Card>
     </div>
   );

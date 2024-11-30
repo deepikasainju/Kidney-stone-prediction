@@ -8,11 +8,13 @@ const PredictByImage = () => {
   const [prediction, setPrediction] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState(null);
+  const [error, setError] = useState(false);
 
   const handleFileChange = (e) => {
     const uploadedFile = e.target.files[0];
     if (uploadedFile) {
-      if (uploadedFile.size > 2 * 1024 * 1024) { // 2MB file size limit
+      if (uploadedFile.size > 2 * 1024 * 1024) {
+        // 2MB file size limit
         alert("File size exceeds 2MB. Please upload a smaller file.");
         return;
       }
@@ -24,7 +26,6 @@ const PredictByImage = () => {
       setImagePreview(null);
     }
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -46,16 +47,17 @@ const PredictByImage = () => {
       if (response.ok) {
         const data = await response.json();
         setPrediction(data.prediction);
+        setError(false);
       } else {
         const errorData = await response.json();
         setPrediction(errorData.error || "An error occurred.");
+        setError(true);
       }
     } catch (error) {
       console.error("Error:", error);
       setPrediction("Network error. Please try again later.");
     } finally {
       setIsLoading(false); // Hide loading indicator
-      console.log(image);
       setImagePreview(null);
     }
   };
@@ -102,7 +104,9 @@ const PredictByImage = () => {
                 <span className="font-semibold">Click to upload</span> or drag
                 and drop
               </p>
-              <p className="text-xs text-gray-500">PNG, JPG or JPEG (MAX. 2MB)</p>
+              <p className="text-xs text-gray-500">
+                PNG, JPG or JPEG (MAX. 2MB)
+              </p>
             </div>
           )}
           <input
@@ -124,32 +128,33 @@ const PredictByImage = () => {
       </form>
 
       {/* Prediction Result */}
-      {prediction && (
-        <div className="flex justify-center align-center mt-20">
-
-       
+      <div
+        className={`flex justify-center align-center mt-20 ${
+          !prediction ? "hidden" : ""
+        }`}
+      >
         <Card className="max-w-md ">
-        <h5 className="text-2xl text-center font-bold tracking-tight text-gray-900 dark:text-white">
-          Result
-        </h5>
-        <img
-              src={image}
-              alt="Preview"
-              className=" object-cover rounded-lg"
-            />
-        <p className=" text-gray-700 font-bold">
-             {prediction}
+          {error ? (
+            <h5 className="text-2xl text-center font-bold tracking-tight text-red-600">
+              Error
+            </h5>
+          ) : (
+            <h5 className="text-2xl text-center font-bold tracking-tight text-gray-900 dark:text-white">
+              Result
+            </h5>
+          )}
 
-        </p>
-       
-      </Card>
+          <img src={image} alt="Preview" className=" object-cover rounded-lg" />
+          <p className=" text-gray-700 font-bold">
+            {prediction ? prediction : null}
+          </p>
+        </Card>
       </div>
-        // <div className="mt-8 text-center">
+      {/* // <div className="mt-8 text-center">
         //   <p className="text-lg font-semibold text-gray-800">
         //     Prediction: {prediction}
         //   </p>
-        // </div>
-      )}
+        // </div> */}
     </div>
   );
 };
