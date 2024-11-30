@@ -1,7 +1,7 @@
 import { FaGithub, FaEnvelope } from "react-icons/fa";
 function Footer() {
   return (
-    <footer className="bg-secondaryAccent">
+    <footer className="bg-secondaryAccent" id="contact">
       <div className="lg:mx-32  py-8">
         <ul className="flex flex-wrap justify-center items-center  text-white">
           <li>
