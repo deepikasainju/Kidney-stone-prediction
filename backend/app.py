@@ -150,8 +150,9 @@ def predict_image(image_path):
     # Make a prediction
     prediction = CT_model.predict(image)
     print(prediction[0][0])
-    if prediction[0][0] > 0.5:
-        return 'Kidney Stone Detected (Positive): ',round(float(prediction[0][0])*100,2),'%'
+    print(prediction[0][1])
+    if prediction[0][1] > 0.5:
+        return 'Kidney Stone Detected (Positive): ',round(float(prediction[0][1])*100,2),'%'
     else:
         return 'No Kidney Stone Detected  (Negative): ',round(float(prediction[0][0])*100,2),'%'
 

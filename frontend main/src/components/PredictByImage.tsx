@@ -19,14 +19,30 @@ const PredictByImage = () => {
         alert("File size exceeds 2MB. Please upload a smaller file.");
         return;
       }
-      setFile(uploadedFile);
-      setImagePreview(URL.createObjectURL(uploadedFile)); // Preview the image
-      setImage(URL.createObjectURL(uploadedFile));
+
+      const img = new Image();
+      img.onload = () => {
+        if (img.width > 1024 || img.height > 1024) {
+          alert("Image dimensions exceed 1024x1024. Please upload a smaller image.");
+          setFile(null);
+          setImagePreview(null);
+          setImage(null);
+        } else {
+          setFile(uploadedFile);
+          setImagePreview(URL.createObjectURL(uploadedFile)); // Preview the image
+          setImage(URL.createObjectURL(uploadedFile));
+        }
+      };
+      img.onerror = () => {
+        alert("Invalid image file. Please upload a valid image.");
+      };
+      img.src = URL.createObjectURL(uploadedFile); // Trigger onload
     } else {
       setFile(null);
       setImagePreview(null);
     }
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -151,13 +167,9 @@ const PredictByImage = () => {
           </p>
         </Card>
       </div>
-      {/* // <div className="mt-8 text-center">
-        //   <p className="text-lg font-semibold text-gray-800">
-        //     Prediction: {prediction}
-        //   </p>
-        // </div> */}
-        <div className="mt-3"> <Footer /> </div>
-        
+      <div className="mt-3">
+        <Footer />
+      </div>
     </div>
   );
 };
