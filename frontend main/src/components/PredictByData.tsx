@@ -54,28 +54,34 @@ const PredictByData = () => {
       <form className="max-w-md mx-auto px-5" onSubmit={handleDataSubmit}>
         <div className="relative z-0 w-full mb-5 group">
           <input
-            type="text"
-            step="any"
+            type="number"
+            step={0.01}
             name="gravity"
             id="gravity"
+            min={1}
+            max={1.04}
+            title="Valid range: 1 to 1.04"
             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "
             onChange={(e) => setGravity(e.target.value)}
             required
           />
           <label
-            for="gravity"
+            htmlFor="gravity"
             className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
           >
-            specific gravity
+            Specific Gravity (1 - 1.04)
           </label>
         </div>
         <div className="relative z-0 w-full mb-5 group">
           <input
-            type="text"
+            type="number"
             step="any"
             name="pH"
             id="pH"
+            min={4.76}
+            max={7.94}
+            title="Valid range: 4.76 to 7.94"
             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "
             onChange={(e) => setPH(e.target.value)}
@@ -85,15 +91,18 @@ const PredictByData = () => {
             for="pH"
             className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
           >
-            pH
+            pH (4.76 - 7.94)
           </label>
         </div>
         <div className="relative z-0 w-full mb-5 group">
           <input
-            type="text"
+            type="number"
             step="any"
             name="osmo"
             id="osmo"
+            min={187}
+            max={1236}
+            title="Valid range: 187 to 1236"
             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "
             onChange={(e) => setOsmo(e.target.value)}
@@ -103,15 +112,18 @@ const PredictByData = () => {
             for="osmo"
             className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
           >
-            Osmolality
+            Osmolality (187 - 1236)
           </label>
         </div>
         <div className="relative z-0 w-full mb-5 group">
           <input
-            type="text"
+            type="number"
             step="any"
             name="conductivity"
             id="conductivity"
+            min={5.1}
+            max={38}
+            title="Valid range: 5.1 to 38"
             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "
             onChange={(e) => setCond(e.target.value)}
@@ -121,15 +133,18 @@ const PredictByData = () => {
             for="conductivity"
             className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
           >
-            Conductivity
+            Conductivity (5.1 - 38)
           </label>
         </div>
         <div className="relative z-0 w-full mb-5 group">
           <input
-            type="text"
+            type="number"
             step="any"
             name="urea"
             id="urea"
+            min={10}
+            max={620}
+            title="Valid range: 10 to 620"
             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "
             onChange={(e) => setUrea(e.target.value)}
@@ -139,15 +154,18 @@ const PredictByData = () => {
             for="urea"
             className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
           >
-            Urea Concentration
+            Urea Concentration (10 - 620)
           </label>
         </div>
         <div className="relative z-0 w-full mb-5 group">
           <input
-            type="text"
+            type="number"
             step="any"
             name="calc"
             id="calc"
+            min={0.17}
+            max={14.3}
+            title="Valid range: 0.17 to 14.3"
             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "
             onChange={(e) => setCalc(e.target.value)}
@@ -157,7 +175,7 @@ const PredictByData = () => {
             for="calc"
             className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
           >
-            Calcium concentration
+            Calcium concentration (0.17 - 14.3)
           </label>
         </div>
 
@@ -190,9 +208,11 @@ const PredictByData = () => {
           </Card>
         </div>
       )}
-      
-      <div className="mt-3"> <Footer /> </div>
-      
+
+      <div className="mt-3">
+        {" "}
+        <Footer />{" "}
+      </div>
     </div>
   );
 };
