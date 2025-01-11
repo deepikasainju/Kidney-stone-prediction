@@ -14,12 +14,6 @@ const PredictByImage = () => {
   const handleFileChange = (e) => {
     const uploadedFile = e.target.files[0];
     if (uploadedFile) {
-      if (uploadedFile.size > 2 * 1024 * 1024) {
-        // 2MB file size limit
-        alert("File size exceeds 2MB. Please upload a smaller file.");
-        return;
-      }
-
       const img = new Image();
       img.onload = () => {
         if (img.width > 1024 || img.height > 1024) {

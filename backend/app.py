@@ -127,7 +127,7 @@ def has_sharp_edges(image_path):
     edge_percentage = np.sum(edges > 0) / float(image.size)
     
     # If the edge percentage is above a certain threshold, it might be a CT scan
-    return edge_percentage > 0.05  # Example threshold
+    return edge_percentage > 0.05  # threshold
 
 def predict_image(image_path):
     """
@@ -140,7 +140,7 @@ def predict_image(image_path):
     - str: 'Normal' or 'Stone' based on the prediction.
     """
     # loading the model
-    CT_model = load_model('../ML/kidney_stone_detection_CT_image_model_200.h5')
+    CT_model = load_model('kidney_stone_detection_CT_image_model.h5')
 
     # Load and preprocess the image
     image = load_img(image_path, target_size=(150, 150))  # Resize to match model's input size
@@ -171,8 +171,8 @@ def predictbyimage():
       file.save(filepath)
 
        # Validate if the image is a CT scan
-      if not has_sharp_edges(filepath):
-         return jsonify({"error": "Uploaded file is not a valid CT scan image of Kidney"}), 400
+      # if not has_sharp_edges(filepath):
+      #    return jsonify({"error": "Uploaded file is not a valid CT scan image of Kidney"}), 400
       
       # Run prediction
       result = predict_image(filepath)
