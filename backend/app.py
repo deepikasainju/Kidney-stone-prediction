@@ -140,7 +140,7 @@ def predict_image(image_path):
     - str: 'Normal' or 'Stone' based on the prediction.
     """
     # loading the model
-    CT_model = load_model('kidney_stone_detection_CT_image_model.h5')
+    CT_model = load_model('../ML/kidney_stone_detection_CT_image_model_200.h5')
 
     # Load and preprocess the image
     image = load_img(image_path, target_size=(150, 150))  # Resize to match model's input size
