@@ -75,7 +75,7 @@ def hysteresis(image, weak, strong):
                     image[i, j] = 0
     return image
 
-def canny_edge_detection(image, low_threshold, high_threshold):
+def Canny(image, low_threshold, high_threshold):
     """Complete Canny edge detection pipeline."""
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     blurred = gaussian_blur(gray)
@@ -87,7 +87,7 @@ def canny_edge_detection(image, low_threshold, high_threshold):
 
 # Test the implementation
 image = cv2.imread(r'C:\Users\Dell\Downloads\download.jpeg')
-edges = canny_edge_detection(image, 50, 150)
+edges = Canny(image, 50, 150)
 print(np.sum(edges>0))
 edge_percentage = np.sum(edges > 0) / float(image.size)
 print(edge_percentage)

@@ -11,7 +11,7 @@ from keras.models import load_model
 import numpy as np
 import os
 import cv2
-from canny_edge_detection import canny_edge_detection
+from canny_edge_detection import Canny
 
 
 app = Flask(__name__)
