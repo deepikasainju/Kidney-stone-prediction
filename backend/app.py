@@ -107,7 +107,7 @@ def predictbydata():
         'urea': [urea],
         'calc': [calc]
       })
-      data_model = load('lgbm.joblib')
+      data_model = load('random.joblib')
       prob = data_model.predict_proba(input_data)
       no_stone_prob=prob[0][0]
       stone_prob=prob[0][1]
