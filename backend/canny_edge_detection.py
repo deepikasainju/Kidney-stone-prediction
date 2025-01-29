@@ -86,8 +86,8 @@ def Canny(image, low_threshold, high_threshold):
     return edges
 
 # Test the implementation
-image = cv2.imread(r'C:\Users\Dell\Downloads\download.jpeg')
-edges = Canny(image, 50, 150)
-print(np.sum(edges>0))
-edge_percentage = np.sum(edges > 0) / float(image.size)
-print(edge_percentage)
+# image = cv2.imread(r'C:\Users\Dell\Downloads\download.jpeg')
+# edges = Canny(image, 50, 150)
+# print(np.sum(edges>0))
+# edge_percentage = np.sum(edges > 0) / float(image.size)
+# print(edge_percentage)
